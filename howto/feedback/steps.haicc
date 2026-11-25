@@ -1,0 +1,11 @@
+# scene: the host in service
+. boot/deploy host haiccing/base-component-haicc
+# step: any command, the flag last, the text after it: recorded, not run
+host crud/read swarms --flags feedback the list is empty, a swarm was expected
+# expect: "feedback":"recorded","on":"crud/read swarms"
+# step: the same, asked directly: the text, then the command's <protocol>/<action> and arguments after the URI
+host haici/feedback swarms "the list is empty" crud/read
+# expect: "feedback":"recorded","on":"crud/read swarms"
+# step: all the feedback recorded there, read back in the request layer
+host crud/read "done/*[value/value/protocol='haici']" --flags layer=request
+# expect: the list is empty, a swarm was expected
